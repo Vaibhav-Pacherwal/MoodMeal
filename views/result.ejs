@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <div class="container">
+          <div class="result-box">
+            <h1>Your Mood Result 🎉</h1>
+      
+            <p class="user-input"><strong>Your Input:</strong> "<%= userInput %>"</p>
+            <p class="mood">Mood: <%= mood %></p>
+            <p class="meal">Recommended Meal: <%= meal %></p>
+      
+            <% if (recipe && ytLink) { %>
+              <div class="recipe-section">
+                <h2>🍽️ Recipe:</h2>
+                <p class="recipe-text"><%= recipe %></p>
+      
+                <a href="<%= ytLink %>" target="_blank" class="try-again ytLink">
+                  📺 Watch on YouTube
+                </a>
+              </div>
+            <% } %>
+      
+            <a href="/" class="try-again">🔄 Try Again</a>
+          </div>
+        </div>
+      </body>
+      
+</html>

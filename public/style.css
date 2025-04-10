@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #fb7185, #a855f7, #6366f1);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .result-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .result-box h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .user-input,
+  .mood,
+  .meal {
+    font-size: 18px;
+    color: #444;
+    margin: 10px 0;
+  }
+  
+  .mood {
+    font-weight: bold;
+    color: #7c3aed;
+  }
+  
+  .meal {
+    color: #059669;
+  }
+  
+  .recipe-section {
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    margin: 25px 0;
+  }
+  
+  .recipe-section h2 {
+    font-size: 18px;
+    color: #374151;
+    margin-bottom: 10px;
+  }
+  
+  .recipe-text {
+    color: #374151;
+    font-size: 14px;
+    white-space: pre-line;
+  }
+  
+  .youtube-link {
+    display: flex;
+    margin-top: 12px;
+    color: #4f46e5;
+    text-decoration: underline;
+  }
+  
+  .youtube-link:hover {
+    color: #4338ca;
+  }
+  
+  .try-again {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 25px;
+    background-color: #6366f1;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .try-again:hover {
+    background-color: #4f46e5;
+  }
+
+  .ytLink {
+    transform: translateX(60%);
+  }
+
+  @media (max-width: 650px) {
+    .ytLink {
+        transform: translateX(0);
+    }
+  }
+  
