@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
 import sys
 import io
 
@@ -13,13 +13,13 @@ data = pd.read_csv('emotion_dataset.csv', sep=';', names=['text', 'label'])
 x = data['text']
 y = data['label']
 
-vectorizer = CountVectorizer()
+vectorizer = TfidfVectorizer()
 x_vectorizer = vectorizer.fit_transform(x)
 
 x_train, x_test, y_train, y_test = train_test_split(
-     x_vectorizer, y, test_size=0.3, random_state=42
+     x_vectorizer, y, stratify=y, test_size=0.3, random_state=42
 )
-model = LogisticRegression()
+model = MultinomialNB()
 model.fit(x_train,y_train)
 
 userEmo = vectorizer.transform([user_input])
