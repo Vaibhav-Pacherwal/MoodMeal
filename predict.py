@@ -10,8 +10,24 @@ user_input = " ".join(sys.argv[1:])
 
 data = pd.read_csv('emotion_dataset.csv', sep=';', names=['text', 'label'])
 
-x = data['text']
-y = data['label']
+from sklearn.utils import resample
+
+target_count = 400
+
+balanced_dfs = []
+for emotion in data['label'].value_counts().index:
+    emotion_df = data[data['label'] == emotion]
+    if len(emotion_df) > target_count:
+        sampled_df = resample(emotion_df, replace=False, n_samples=target_count, random_state=42)
+    else:
+        sampled_df = resample(emotion_df, replace=True, n_samples=target_count, random_state=42)
+    balanced_dfs.append(sampled_df)
+
+balanced_data = pd.concat(balanced_dfs).sample(frac=1, random_state=42).reset_index(drop=True)
+
+x = balanced_data['text']
+y = balanced_data['label']
+
 
 vectorizer = TfidfVectorizer()
 x_vectorizer = vectorizer.fit_transform(x)
