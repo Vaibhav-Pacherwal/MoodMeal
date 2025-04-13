@@ -9,6 +9,7 @@ body {
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
+    overflow: hidden;
   }
   
   .container {
@@ -103,3 +104,44 @@ body {
     }
   }
   
+  .prompts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  .prompts::-webkit-scrollbar {
+    display: none;
+  }
+
+  .active {
+    display: flex; 
+    flex-direction: column;
+  }
+
+  .pp {
+    overflow-y: auto;
+    margin-top: 4%;
+    margin-bottom: 4%;
+  }
+
+  .pp::-webkit-scrollbar {
+    display: none;
+  }
+
+  .close {
+    top: 10px;
+    position: absolute;
+    cursor: pointer;
+  }
+

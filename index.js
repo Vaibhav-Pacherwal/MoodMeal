@@ -21,6 +21,8 @@ app.get('/', (req, res)=>{
     res.render("home");
 });
 
+let prompts = [];
+
 app.post('/predict', (req, res)=>{
     const userInput = req.body.userInput;
     const command = `python predict.py ${userInput}`;
@@ -37,12 +39,14 @@ app.post('/predict', (req, res)=>{
 
         const output = stdout.trim();
         const [mood, meal, recipe, ytLink] = output.split("::");
+        prompts.push(`${userInput}:${mood}`);
         res.render("result", {
             mood,
             meal,
             userInput,
             recipe,
-            ytLink
+            ytLink,
+            prompts
         });
     })
 })

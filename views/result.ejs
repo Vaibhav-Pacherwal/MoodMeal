@@ -25,10 +25,35 @@
                 </a>
               </div>
             <% } %>
+
+            <button class="try-again" style="border: none; font-size: 16.5px; cursor: pointer;">⬅️ Previous Prompts</button>
       
             <a href="/" class="try-again">🔄 Try Again</a>
           </div>
         </div>
+        <div class="prompts">
+          <img src="/images/close.png" alt="close" height="50px" width="50px" class="close">
+          <div class="pp">
+            <% for(let i = 0; i < prompts.length; i++) { %>
+              <h3><%= prompts[i] %></h3>
+            <% } %>
+          </div>
+        </div>
+
+        <script>
+          let btn = document.querySelector("button");
+          let prompt = document.querySelector(".prompts");
+          let closing = document.querySelector(".close");
+
+          btn.addEventListener('click', ()=>{
+            prompt.classList.add("active");
+          })
+
+          closing.addEventListener('click', ()=>{
+            prompt.classList.remove("active");
+          })
+          
+        </script>
       </body>
       
 </html>
