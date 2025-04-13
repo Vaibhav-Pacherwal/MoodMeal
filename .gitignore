@@ -19,3 +19,4 @@ Thumbs.db
 models/
 dataset/
 balanced_emotion_dataset.csv
+venv/

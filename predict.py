@@ -1,7 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
 import sys
 import io
 
@@ -29,17 +30,27 @@ x = balanced_data['text']
 y = balanced_data['label']
 
 
-vectorizer = TfidfVectorizer()
+vectorizer = TfidfVectorizer(
+    lowercase=True,
+    stop_words='english',
+    ngram_range=(1, 2),   
+    max_df=0.9,           
+    min_df=5  
+)
 x_vectorizer = vectorizer.fit_transform(x)
 
 x_train, x_test, y_train, y_test = train_test_split(
      x_vectorizer, y, stratify=y, test_size=0.3, random_state=42
 )
-model = MultinomialNB()
+y_true = y_test
+model = LogisticRegression(max_iter=1000)
 model.fit(x_train,y_train)
 
 userEmo = vectorizer.transform([user_input])
 predicted_mood = model.predict(userEmo)[0]
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_true, y_pred)
+print("Accuracy: ", accuracy)
 
 emoji_map = {
     "joy": "😊joy",
@@ -86,6 +97,7 @@ mood_meals_ytlinks = {
 meal = mood_meals.get(predicted_mood, "🍽️ Just stay hydrated and take a deep breath!")
 meal_recipe = mood_meals_recipe.get(predicted_mood)
 meal_ytlink = mood_meals_ytlinks.get(predicted_mood)
-print(f"{predicted_mood}::{meal}::{meal_recipe}::{meal_ytlink}")
+print(f"{predicted_mood}::{meal}::{meal_recipe}::{meal_ytlink}::{accuracy}")
 print("Checking if data loads properly...", file=sys.stderr)
+
 
