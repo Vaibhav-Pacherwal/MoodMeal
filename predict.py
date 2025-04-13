@@ -5,6 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import sys
 import io
+import re
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 user_input = " ".join(sys.argv[1:])
@@ -37,6 +38,42 @@ vectorizer = TfidfVectorizer(
     max_df=0.9,           
     min_df=5  
 )
+
+def handle_double_negatives(text):
+    double_negative_patterns = [
+        (r"\bnot\s+happy\b", "sad"),
+        (r"\bnot\s+(un\w+)", lambda m: m.group(1)[2:]),  
+        (r"\bnot\s+(never|no one|nothing|nowhere|none)\b", "always"),
+        (r"\bnot\s+bad\b", "good"),
+        (r"\bnot\s+sad\b", "happy"),
+        (r"\bnot\s+angry\b", "calm"),
+        (r"\bnot\s+worried\b", "relieved"),
+        (r"\bnot\s+upset\b", "okay"),
+        (r"\bnot\s+scared\b", "confident"),
+        (r"\bnot\s+happy\b", "sad"),
+        (r"\bno\s+(good|sad|angry|surprised|happy|upset)\b", "happy"),  
+        (r"\bno\s+(sad)\b", "happy"),
+         (r"\bnever\s+(good|bad|happy|angry|sad)\b", "good"),
+         (r"\bnot\s+the\s+worst\b", "best"),
+        (r"\bnot\s+feeling\s+bad\b", "feeling good"),
+        (r"\bnot\s+feeling\s+down\b", "feeling up"),
+        (r"\bnot\s+(un\w+)\b", lambda m: m.group(1)[2:]),
+        (r"\bnot\s+(happy|unhappy)\b", "sad"),
+        (r"\bnot\s+(good|bad)\b", "good"),
+        (r"\bnot\s+(sad)\b", "happy"),
+        (r"\bnot\s+(angry|irritated|frustrated|enraged)\b", "calm"),
+        (r"\bnot\s+(scared|afraid|terrified)\b", "confident"),
+        (r"\bnot\s+(lonely)\b", "connected"),
+        (r"\bnot\s+(tired|exhausted|sleepy)\b", "energetic"),
+        (r"\bnot\s+(bored)\b", "interested"),
+    ]
+
+    for pattern, repl in double_negative_patterns:
+        text = re.sub(pattern, repl, text, flags=re.IGNORECASE)
+    
+    return text
+
+user_input = handle_double_negatives(user_input)
 x_vectorizer = vectorizer.fit_transform(x)
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -55,17 +92,17 @@ print("Accuracy:", accuracy)
 
 emotion_keywords = {
     "joy": [
-        "happy", "joyful", "glad", "cheerful", "content", "delighted", "excited", "promoted",
+        "joyful", "glad", "cheerful", "content", "delighted", "excited", "promoted",
         "elated", "ecstatic", "grateful", "satisfied", "enthusiastic", "feeling on top", "optimistic", 
         "uplifted", "laughing", "giggling", "smiling", "grinning", "sunshine", "yay"
     ],
     "sadness": [
-        "sad", "unhappy", "depressed", "down", "gloomy", "miserable", "crying", 
+         "depressed", "down", "gloomy", "miserable", "crying", 
         "tearful", "heartbroken", "blue", "upset", "hopeless", "sorrow", 
         "lonely", "despair", "grief", "melancholy", "regret", "disappointed"
     ],
     "anger": [
-        "angry", "furious", "mad", "rage", "irritated", "annoyed", "frustrated", 
+        "furious", "rage", "irritated", "annoyed", "frustrated", 
         "resentful", "offended", "hate", "outraged", "aggressive", "hostile", 
         "bitter", "infuriated", "pissed", "snapping", "grumpy", "enraged", "frustrating"
     ],
