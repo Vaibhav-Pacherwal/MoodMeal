@@ -94,7 +94,7 @@ emotion_keywords = {
     "joy": [
         "joyful", "glad", "cheerful", "content", "delighted", "excited", "promoted",
         "elated", "ecstatic", "grateful", "satisfied", "enthusiastic", "feeling on top", "optimistic", 
-        "uplifted", "laughing", "giggling", "smiling", "grinning", "sunshine", "yay", "fun"
+        "uplifted", "laughing", "giggling", "smiling", "grinning", "sunshine", "yay", "fun", "happy"
     ],
     "sadness": [
          "depressed", "down", "gloomy", "miserable", "crying", 
