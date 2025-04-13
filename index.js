@@ -36,13 +36,14 @@ app.post('/predict', (req, res)=>{
         }
 
         const output = stdout.trim();
-        const [mood, meal, recipe, ytLink] = output.split("::");
+        const [mood, meal, recipe, ytLink, accuracy] = output.split("::");
         res.render("result", {
             mood,
             meal,
             userInput,
             recipe,
-            ytLink
+            ytLink,
+            accuracy
         });
     })
 })

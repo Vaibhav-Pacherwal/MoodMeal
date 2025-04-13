@@ -18,3 +18,4 @@ Thumbs.db
 *.joblib
 models/
 dataset/
+balanced_emotion_dataset.csv
