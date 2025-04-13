@@ -63,9 +63,10 @@ def handle_double_negatives(text):
         (r"\bnot\s+(sad)\b", "happy"),
         (r"\bnot\s+(angry|irritated|frustrated|enraged)\b", "calm"),
         (r"\bnot\s+(scared|afraid|terrified)\b", "confident"),
+        (r"\bnot\s+(gloomy)\b", "happy"),
         (r"\bnot\s+(lonely)\b", "connected"),
         (r"\bnot\s+(tired|exhausted|sleepy)\b", "energetic"),
-        (r"\bnot\s+(bored)\b", "interested"),
+        (r"\bnot\s+(bored)\b", "interested")
     ]
 
     for pattern, repl in double_negative_patterns:
