@@ -48,9 +48,57 @@ model.fit(x_train,y_train)
 
 userEmo = vectorizer.transform([user_input])
 predicted_mood = model.predict(userEmo)[0]
+
 y_pred = model.predict(x_test)
-accuracy = accuracy_score(y_true, y_pred)
-print("Accuracy: ", accuracy)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+emotion_keywords = {
+    "joy": [
+        "happy", "joyful", "glad", "cheerful", "content", "delighted", "excited", "promoted",
+        "elated", "ecstatic", "grateful", "satisfied", "enthusiastic", "feeling on top", "optimistic", 
+        "uplifted", "laughing", "giggling", "smiling", "grinning", "sunshine", "yay"
+    ],
+    "sadness": [
+        "sad", "unhappy", "depressed", "down", "gloomy", "miserable", "crying", 
+        "tearful", "heartbroken", "blue", "upset", "hopeless", "sorrow", 
+        "lonely", "despair", "grief", "melancholy", "regret", "disappointed"
+    ],
+    "anger": [
+        "angry", "furious", "mad", "rage", "irritated", "annoyed", "frustrated", 
+        "resentful", "offended", "hate", "outraged", "aggressive", "hostile", 
+        "bitter", "infuriated", "pissed", "snapping", "grumpy", "enraged", "frustrating"
+    ],
+    "fear": [
+        "scared", "afraid", "frightened", "terrified", "nervous", "anxious", 
+        "worried", "panic", "tense", "shaky", "horrified", "dread", "alarmed", 
+        "insecure", "paranoid", "startled", "uneasy", "timid", "phobia"
+    ],
+    "love": [
+        "love", "loved", "loving", "affection", "passion", "caring", "adore", 
+        "cherish", "fond", "romantic", "devoted", "attachment", "crush", 
+        "sweetheart", "companion", "hug", "kiss", "bae", "baby", "darling"
+    ],
+    "surprise": [
+        "surprised", "shocked", "amazed", "astonished", "stunned", "startled", 
+        "speechless", "unexpected", "unbelievable", "wow", "whoa", "omg", 
+        "flabbergasted", "awe", "disbelief", "jaw-dropping", "mind-blown", "shocking", "can't believe"
+    ],
+    "neutral": [
+        "okay", "fine", "normal", "alright", "meh", "indifferent", "bored", 
+        "blank", "neutral", "whatever", "tired", "nothing", "idle", "chill", 
+        "casual", "unmoved", "plain", "still", "quiet", "calm"
+    ]
+}
+
+
+def extract_emotion_keywords(input_text, keyword_dict):
+    features = {}
+    for emotion, keywords in keyword_dict.items():
+        features[emotion] = int(any(word in input_text.lower() for word in keywords))
+    return features
+
+user_keyword_features = extract_emotion_keywords(user_input, emotion_keywords)
 
 emoji_map = {
     "joy": "😊joy",
@@ -63,6 +111,15 @@ emoji_map = {
 }
 
 predicted_mood = emoji_map.get(predicted_mood, predicted_mood)
+
+if user_keyword_features.get(predicted_mood.replace("😊", "").replace("😢", "").replace("😠", "").replace("😨", "").replace("😮", "").replace("❤️", "").replace("😐", ""), 0) == 1:
+    final_prediction = predicted_mood
+else:
+    matching_emotions = [emo for emo, val in user_keyword_features.items() if val == 1]
+    if matching_emotions:
+        final_prediction = emoji_map.get(matching_emotions[0], predicted_mood + " (uncertain)")
+    else:
+        final_prediction = predicted_mood
 
 mood_meals = {
     "😊joy": "🍓 Creamy Mac & Cheese",
@@ -94,10 +151,10 @@ mood_meals_ytlinks = {
     "😐neutral": "https://www.youtube.com/watch?v=KXq4Y5dfT6k",
 }
 
-meal = mood_meals.get(predicted_mood, "🍽️ Just stay hydrated and take a deep breath!")
-meal_recipe = mood_meals_recipe.get(predicted_mood)
-meal_ytlink = mood_meals_ytlinks.get(predicted_mood)
-print(f"{predicted_mood}::{meal}::{meal_recipe}::{meal_ytlink}::{accuracy}")
+meal = mood_meals.get(final_prediction, "🍽️ Just stay hydrated and take a deep breath!")
+meal_recipe = mood_meals_recipe.get(final_prediction)
+meal_ytlink = mood_meals_ytlinks.get(final_prediction)
+print(f"{final_prediction}::{meal}::{meal_recipe}::{meal_ytlink}::{accuracy}")
 print("Checking if data loads properly...", file=sys.stderr)
 
 
