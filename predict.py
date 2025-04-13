@@ -89,7 +89,6 @@ predicted_mood = model.predict(userEmo)[0]
 
 y_pred = model.predict(x_test)
 accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
 
 emotion_keywords = {
     "joy": [
@@ -192,7 +191,7 @@ mood_meals_ytlinks = {
 meal = mood_meals.get(final_prediction, "🍽️ Just stay hydrated and take a deep breath!")
 meal_recipe = mood_meals_recipe.get(final_prediction)
 meal_ytlink = mood_meals_ytlinks.get(final_prediction)
-print(f"{final_prediction}::{meal}::{meal_recipe}::{meal_ytlink}::{accuracy}")
+print(f"{final_prediction}::{meal}::{meal_recipe}::{meal_ytlink}")
 print("Checking if data loads properly...", file=sys.stderr)
 
 
