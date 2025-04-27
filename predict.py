@@ -42,6 +42,11 @@ vectorizer = TfidfVectorizer(
 def handle_double_negatives(text):
     double_negative_patterns = [
         (r"\bnot\s+happy\b", "sad"),
+        (r"\bnot\s+feeling\s+happy\b", "sad"),
+        (r"\bnot\s+feeling\s+sad\b", "nuetral"),
+        (r"\bnot\s+feeling\s+angry\b", "nuetral"),
+        (r"\bnot\s+angry\b", "nuetral"),
+        (r"\bnot\s+surprised\b", "nuetral"),
         (r"\bnot\s+(un\w+)", lambda m: m.group(1)[2:]),  
         (r"\bnot\s+(never|no one|nothing|nowhere|none)\b", "always"),
         (r"\bnot\s+bad\b", "good"),
@@ -92,17 +97,17 @@ accuracy = accuracy_score(y_test, y_pred)
 
 emotion_keywords = {
     "joy": [
-        "joyful", "glad", "cheerful", "content", "delighted", "excited", "promoted",
+        "joy", "joyful", "glad", "cheerful", "content", "delighted", "excited", "promoted",
         "elated", "ecstatic", "grateful", "satisfied", "enthusiastic", "feeling on top", "optimistic", 
         "uplifted", "laughing", "giggling", "smiling", "grinning", "sunshine", "yay", "fun", "happy"
     ],
     "sadness": [
-         "depressed", "down", "gloomy", "miserable", "crying", 
+         "sad", "depressed", "down", "gloomy", "miserable", "crying", 
         "tearful", "heartbroken", "blue", "upset", "hopeless", "sorrow", 
-        "lonely", "despair", "grief", "melancholy", "regret", "disappointed"
+        "lonely", "despair", "grief", "melancholy", "regret", "disappointed", "alone", "difficult", "difficulties", "stressed", "stress"
     ],
     "anger": [
-        "furious", "rage", "irritated", "annoyed", "frustrated", 
+        "anger","angry", "furious", "rage", "irritated", "annoyed", "frustrated", 
         "resentful", "offended", "hate", "outraged", "aggressive", "hostile", 
         "bitter", "infuriated", "pissed", "snapping", "grumpy", "enraged", "frustrating"
     ],
@@ -119,12 +124,12 @@ emotion_keywords = {
     "surprise": [
         "surprised", "shocked", "amazed", "astonished", "stunned", "startled", 
         "speechless", "unexpected", "unbelievable", "wow", "whoa", "omg", 
-        "flabbergasted", "awe", "disbelief", "jaw-dropping", "mind-blown", "shocking", "can't believe"
+        "flabbergasted", "awe", "disbelief", "jaw-dropping", "mind-blown", "shocking", "can't believe", "suprising", "surprise"
     ],
     "neutral": [
         "okay", "fine", "normal", "alright", "meh", "indifferent", "bored", 
         "blank", "neutral", "whatever", "tired", "nothing", "idle", "chill", 
-        "casual", "unmoved", "plain", "still", "quiet", "calm", "lazy", ""
+        "casual", "unmoved", "plain", "still", "quiet", "calm", "lazy", "", "not feeling anything"
     ]
 }
 
